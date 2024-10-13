@@ -429,6 +429,10 @@
   },
   {
     "gameroot": "Chess/",
-    "game": "Chess (Lag)"
+    "game": "Chess (lag)"
+  },
+  {
+    "gameroot": "run/",
+    "game": "run 1"
   }
 ]
