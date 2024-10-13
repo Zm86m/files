@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        #error-message {
+            color: red;
+            font-size: 2em;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+        #content {
+            filter: blur(0);
+        }
+    </style>
+    <script>
+        async function sendMessage() {
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+
+            const response = await fetch('https://verbose-garbanzo-pj79v5j74jqpc975r-3000.app.github.dev/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, message }),
+            });
+
+            const result = await response.json();
+            console.log(result);
+            document.getElementById('name').value = '';
+            document.getElementById('message').value = '';
+            fetchMessages(); // Optionally fetch messages after sending
+        }
+
+        async function fetchMessages() {
+            try {
+                const response = await fetch('https://verbose-garbanzo-pj79v5j74jqpc975r-3000.app.github.dev/');
+                const messagesList = document.getElementById('messages');
+                const errorMessage = document.getElementById('error-message');
+                const content = document.getElementById('content');
+
+                // Clear previous error message
+                errorMessage.style.display = 'none';
+                content.style.filter = 'blur(0)'; // Clear blur
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const messages = await response.json();
+                messagesList.innerHTML = ''; // Clear the existing list
+
+                messages.forEach(msg => {
+                    const li = document.createElement('li');
+                    li.textContent = `${msg.name}: ${msg.mess}`;
+                    messagesList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Fetch error:', error);
+                const errorMessage = document.getElementById('error-message');
+                const content = document.getElementById('content');
+
+                errorMessage.style.display = 'block'; // Show error message
+                content.style.filter = 'blur(5px)'; // Apply blur effect to content
+            }
+        }
+
+        // Fetch messages every 2 seconds
+        setInterval(fetchMessages, 2000);
+    </script>
+</head>
+<body>
+    <div id="content">
+        <h1>Message Client</h1>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="message" placeholder="Your Message" required>
+        <button onclick="sendMessage()">Send Message</button>
+
+        <h2>Messages</h2>
+        <ul id="messages"></ul>
+    </div>
+    <div id="error-message">No Server Available</div> <!-- Error message div -->
+
+    <script>
+        // Initial fetch on page load
+        fetchMessages();
+    </script>
+</body>
+</html>
