@@ -10,41 +10,27 @@
         }
         #error-message {
             color: red;
-            font-size: 2em;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            backdrop-filter: blur(5px);
-            display: none;
+            font-size: 2em; /* Large text */
+            position: fixed; /* Fixed positioning */
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust for centering */
+            z-index: 10; /* Ensure it's above other elements */
+            backdrop-filter: blur(5px); /* Blur effect */
+            display: none; /* Hidden by default */
         }
         #content {
-            filter: blur(0);
+            filter: blur(0); /* No blur effect initially */
         }
     </style>
     <script>
-        
-    </script>
-</head>
-<body>
-    <div id="content">
-        <h1>Message Client</h1>
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="text" id="message" placeholder="Your Message" required>
-        <button onclick="sendMessage()">Send Message</button>
+        const SERVER_URL = 'https://verbose-garbanzo-pj79v5j74jqpc975r-3000.app.github.dev';
 
-        <h2>Messages</h2>
-        <ul id="messages"></ul>
-    </div>
-    <div id="error-message">No Server Available</div> <!-- Error message div -->
-
-    <script>
-    async function sendMessage() {
+        async function sendMessage() {
             const name = document.getElementById('name').value;
             const message = document.getElementById('message').value;
 
-            const response = await fetch('https://verbose-garbanzo-pj79v5j74jqpc975r-3000.app.github.dev/p1', {
+            const response = await fetch(`${SERVER_URL}/p1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +47,7 @@
 
         async function fetchMessages() {
             try {
-                const response = await fetch('https://verbose-garbanzo-pj79v5j74jqpc975r-3000.app.github.dev/g1');
+                const response = await fetch(`${SERVER_URL}/g1`);
                 const messagesList = document.getElementById('messages');
                 const errorMessage = document.getElementById('error-message');
                 const content = document.getElementById('content');
@@ -94,6 +80,21 @@
 
         // Fetch messages every 2 seconds
         setInterval(fetchMessages, 2000);
+    </script>
+</head>
+<body>
+    <div id="content">
+        <h1>Message Client</h1>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="message" placeholder="Your Message" required>
+        <button onclick="sendMessage()">Send Message</button>
+
+        <h2>Messages</h2>
+        <ul id="messages"></ul>
+    </div>
+    <div id="error-message">No Server Available</div> <!-- Error message div -->
+
+    <script>
         // Initial fetch on page load
         fetchMessages();
     </script>
