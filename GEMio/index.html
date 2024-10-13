@@ -24,7 +24,23 @@
         }
     </style>
     <script>
-        async function sendMessage() {
+        
+    </script>
+</head>
+<body>
+    <div id="content">
+        <h1>Message Client</h1>
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="text" id="message" placeholder="Your Message" required>
+        <button onclick="sendMessage()">Send Message</button>
+
+        <h2>Messages</h2>
+        <ul id="messages"></ul>
+    </div>
+    <div id="error-message">No Server Available</div> <!-- Error message div -->
+
+    <script>
+    async function sendMessage() {
             const name = document.getElementById('name').value;
             const message = document.getElementById('message').value;
 
@@ -78,21 +94,6 @@
 
         // Fetch messages every 2 seconds
         setInterval(fetchMessages, 2000);
-    </script>
-</head>
-<body>
-    <div id="content">
-        <h1>Message Client</h1>
-        <input type="text" id="name" placeholder="Your Name" required>
-        <input type="text" id="message" placeholder="Your Message" required>
-        <button onclick="sendMessage()">Send Message</button>
-
-        <h2>Messages</h2>
-        <ul id="messages"></ul>
-    </div>
-    <div id="error-message">No Server Available</div> <!-- Error message div -->
-
-    <script>
         // Initial fetch on page load
         fetchMessages();
     </script>
