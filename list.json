@@ -426,5 +426,9 @@
   {
     "gameroot": "GEMio/",
     "game": "?Run By Zach "
+  },
+  {
+    "gameroot": "Chess/",
+    "game": "Chess (Lag)"
   }
 ]
