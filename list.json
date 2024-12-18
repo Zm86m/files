@@ -434,5 +434,9 @@
   {
     "gameroot": "run/",
     "game": "run 1"
+  },
+  {
+    "gameroot": "AgeOfWar/",
+    "game": "Age Of War"
   }
 ]
